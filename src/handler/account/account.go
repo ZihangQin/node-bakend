@@ -44,14 +44,10 @@ func RegisterAccount(name string, phone string, password string, email string) (
 	}
 
 	//昵称合法性
-	isSameName ,err := utils.IsNameSame(name)
+	_ ,err := utils.IsNameSame(name)
 	if err != nil {
-		return false,errors.New("名称查询错误")
+		return false,err
 	}
-	if !isSameName {
-		return false, errors.New("该用户名已存在请更换")
-	}
-
 	//邮箱合法性验证
 	_, err = utils.IsEmil(email)
 	if err != nil {

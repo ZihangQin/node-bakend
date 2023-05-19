@@ -58,7 +58,7 @@ func Register(c *gin.Context)  {
 	if err := c.BindJSON(&data); err != nil {
 		c.JSON(400, static.Response{
 			Code: 10400,
-			Msg:  "参数格式错误",
+			Msg:  "参数格式错误"+err.Error(),
 			Data: nil,
 		})
 		return
@@ -69,7 +69,7 @@ func Register(c *gin.Context)  {
 		fmt.Println(err)
 		c.JSON(500, static.Response{
 			Code: 10400,
-			Msg:  "服务器内部错误",
+			Msg:  "服务器内部错误" + err.Error(),
 			Data: nil,
 		})
 		return
