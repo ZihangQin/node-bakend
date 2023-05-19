@@ -16,7 +16,7 @@ func InitRouter() *gin.Engine{
 		g1 := g.Group("/account")
 		{
 			g1.POST("/login", account.Login)
-			g1.POST("/register",)
+			g1.POST("/register", account.Register)
 		}
 	}
 	return router
