@@ -23,7 +23,10 @@ func LoginAccount(name string, password string) (bool, string, error) {
 		return false, "", err
 	}
 
-	if account.UserPassword != password {
+	//验证密码
+	hasher := utils.NewPBKDF2PasswordHasher()
+	isPassword := hasher.Verify(password, account.UserPassword)
+	if !isPassword {
 		return false, "", errors.New("账号或密码错误")
 	}
 
@@ -65,10 +68,14 @@ func RegisterAccount(name string, phone string, password string, email string) (
 		}
 	}
 
+	//密码脱敏
+	hash := utils.NewPBKDF2PasswordHasher()
+	passwordHash := hash.Encode(password,"")
+
 	//将正确的注册数据保存进数据库
 	users :=  static.UserInfos{
 		UserName:     name,
-		UserPassword: password,
+		UserPassword: passwordHash,
 		Emil:         email,
 		Phone:        phone,
 		State:        0,
