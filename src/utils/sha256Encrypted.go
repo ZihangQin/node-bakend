@@ -8,8 +8,6 @@ import (
 	"golang.org/x/crypto/pbkdf2"
 	"math/rand"
 	"time"
-
-	"strings"
 )
 
 var _r *rand.Rand
@@ -29,9 +27,9 @@ func NewPBKDF2PasswordHasher() *PBKDF2PasswordHasher {
 }
 
 func (a PBKDF2PasswordHasher) Verify(password, encode string) bool {
-	salt := strings.Split(encode, "$")
+	//salt := strings.Split(encode, "$")
 	//fmt.Println(salt)
-	return a.Encode(password, salt[2]) == encode
+	return a.Encode(password, "qin") == encode
 }
 
 func (a PBKDF2PasswordHasher) Salt() string {

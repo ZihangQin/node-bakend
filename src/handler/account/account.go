@@ -70,7 +70,7 @@ func RegisterAccount(name string, phone string, password string, email string) (
 
 	//密码脱敏
 	hash := utils.NewPBKDF2PasswordHasher()
-	passwordHash := hash.Encode(password,"")
+	passwordHash := hash.Encode(password,"qin")
 
 	//将正确的注册数据保存进数据库
 	users :=  static.UserInfos{
