@@ -18,12 +18,12 @@ type Payload struct {
  @TODO: 2023.05.15
  @secret: 用于生成jwt的密钥
 */
-	func GenerateToken(secret string, userID string, username string) (string, error) {
+func GenerateToken(secret string, userID string, username string) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &Payload{
 		UserID:   userID,
 		Username: username,
 		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(time.Hour * 1).Unix(),
+			ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
 			IssuedAt:  time.Now().Unix(),
 		},
 	})
