@@ -1,6 +1,7 @@
 package routers
 
 import (
+	"bk/src/handler/TestList"
 	"bk/src/handler/account"
 	"bk/src/handler/browse"
 	"github.com/gin-gonic/gin"
@@ -24,6 +25,8 @@ func InitRouter() *gin.Engine{
 		g2 := g.Group("/browse")
 		{
 			g2.GET("/user",browse.Browse)
+			g2.GET("/testList",TestList.GetTestList)
+			g2.POST("/saveTest",TestList.SaveTest)
 		}
 	}
 	return router

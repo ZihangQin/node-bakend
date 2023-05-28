@@ -23,5 +23,6 @@ func InitMysql(config *config.MysqlConfig) {
 	_ = DB.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(
 		//初始化用户数据表
 		&static.UserInfos{},
+		&static.TestQuestions{},
 		)
 }
