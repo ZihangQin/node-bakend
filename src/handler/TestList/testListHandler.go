@@ -41,7 +41,7 @@ func GetTestList(c *gin.Context) {
 		Code: 10200,
 		Msg:  "success",
 		Data: struct {
-			TestLists  []static.TestQuestions
+			TestLists  interface{}
 			TitlePages int
 		}{TestLists:testList, TitlePages:totlePages},
 	})
