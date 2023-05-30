@@ -4,7 +4,9 @@ import (
 	"bk/src/db"
 	"bk/src/static"
 	"bk/src/utils"
+	"fmt"
 	"math"
+	"sort"
 )
 
 type Test struct {
@@ -12,7 +14,7 @@ type Test struct {
 	UpdateAt        string `json:"updateAt"`
 	Title           string `json:"title"`
 	Class           string `json:"class"`
-	Score           int `json:"score"`
+	Score           int    `json:"score"`
 	TitleType       string `json:"title_type"`
 	Difficulty      string `json:"difficulty"`
 	QuestionsSetter string `json:"questionsSetter"`
@@ -48,7 +50,7 @@ func GetTestLists(pages int) (interface{}, int, error) {
 			QuestionsSetter: databasesTest[i].QuestionsSetter,
 			Answer:          databasesTest[i].Answer,
 		}
-		tests = append(tests,test)
+		tests = append(tests, test)
 	}
 
 	return tests, totalPages, nil
@@ -67,4 +69,27 @@ func SetTest(title string, class string, score int, titleType string,
 		Answer:          answer,
 	}
 	return db.DB.Create(&test).Error
+}
+
+func DeleteTests(idLists map[string]string) {
+	var idList []int
+
+	for k, v := range idLists {
+		if k == "myCheckbox" {
+			continue
+		}
+		IntV, err := utils.StringToInt(v)
+		if err != nil {
+			return
+		}
+		idList = append(idList, IntV)
+	}
+	sort.Ints(idList)
+	fmt.Println(idList)
+	u := make([]static.TestQuestions, len(idList))
+	for i := 0; i <= len(idList)-1; i++ {
+		u[i].ID = uint(idList[i])
+	}
+	fmt.Println(u)
+	db.DB.Model(&static.TestQuestions{}).Delete(&u)
 }

@@ -85,3 +85,18 @@ func SaveTest(c *gin.Context)  {
 		Data: nil,
 	})
 }
+
+func DeleteTest(c *gin.Context)  {
+	var data struct {
+		StrList     map[string]string `json:"strList"`
+	}
+	if err := c.BindJSON(&data); err != nil {
+		c.JSON(400, static.Response{
+			Code: 10400,
+			Msg:  "参数格式错误",
+			Data: nil,
+		})
+		return
+	}
+	DeleteTests(data.StrList)
+}
