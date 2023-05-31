@@ -18,6 +18,7 @@ type testSaveRequest struct {
 
 func GetTestList(c *gin.Context) {
 	page := c.Query("page")
+	token := c.Query("token")
 	pageInt, err := utils.StringToInt(page)
 	if err != nil {
 		c.JSON(400, static.Response{
@@ -27,7 +28,7 @@ func GetTestList(c *gin.Context) {
 		})
 		return
 	}
-	testList, totlePages, err := GetTestLists(pageInt)
+	testList, totlePages, err := GetTestLists(pageInt,token)
 	if err != nil {
 		c.JSON(500, static.Response{
 			Code: 10500,

@@ -1,9 +1,11 @@
 package TestList
 
 import (
+	"bk/src/constant"
 	"bk/src/db"
 	"bk/src/static"
 	"bk/src/utils"
+	"errors"
 	"fmt"
 	"math"
 	"sort"
@@ -22,9 +24,18 @@ type Test struct {
 }
 
 //根据页数获取试题
-func GetTestLists(pages int) (interface{}, int, error) {
+func GetTestLists(pages int, token string) (interface{}, int, error) {
 	var tests []Test
 	var databasesTest []static.TestQuestions
+
+	//进行token验证
+	us,err := utils.VerifyToken(token,constant.SECRET)
+	if err != nil {
+		return nil,0,err
+	}
+	if us == nil {
+		return nil,0,errors.New("token验证失败")
+	}
 	// 计算记录总数和总页数
 	var total int64
 	if err := db.DB.Model(&static.TestQuestions{}).Count(&total).Error; err != nil {
@@ -33,7 +44,7 @@ func GetTestLists(pages int) (interface{}, int, error) {
 	totalPages := int(math.Ceil(float64(total) / float64(10)))
 
 	// 分页查询试题数据
-	err := db.DB.Offset((pages - 1) * 12).Limit(12).Find(&databasesTest).Error
+	err = db.DB.Offset((pages - 1) * 12).Limit(12).Find(&databasesTest).Error
 	if err != nil {
 		return nil, 0, err
 	}
