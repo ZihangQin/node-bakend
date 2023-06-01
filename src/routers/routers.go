@@ -28,6 +28,7 @@ func InitRouter() *gin.Engine{
 			g2.GET("/testList",TestList.GetTestList)
 			g2.POST("/saveTest",TestList.SaveTest)
 			g2.POST("/deleteTests",TestList.DeleteTest)
+			g2.GET("/searchTests",TestList.SearchTest)
 		}
 	}
 	return router

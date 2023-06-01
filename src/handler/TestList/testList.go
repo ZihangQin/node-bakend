@@ -29,12 +29,12 @@ func GetTestLists(pages int, token string) (interface{}, int, error) {
 	var databasesTest []static.TestQuestions
 
 	//进行token验证
-	us,err := utils.VerifyToken(token,constant.SECRET)
+	us, err := utils.VerifyToken(token, constant.SECRET)
 	if err != nil {
-		return nil,0,err
+		return nil, 0, err
 	}
 	if us == nil {
-		return nil,0,errors.New("token验证失败")
+		return nil, 0, errors.New("token验证失败")
 	}
 	// 计算记录总数和总页数
 	var total int64
@@ -103,4 +103,39 @@ func DeleteTests(idLists map[string]string) {
 	}
 	fmt.Println(u)
 	db.DB.Model(&static.TestQuestions{}).Delete(&u)
+}
+
+func SearchTests(data string) ([]Test, error) {
+	if data == "" {
+		return nil, errors.New("搜索内容不能为空！")
+	}
+
+	var tests []static.TestQuestions
+	err := db.DB.Model(&static.TestQuestions{}).Where("id LIKE ?", data).
+		Or("title LIKE ?", data).Or("title_type LIKE ?", data).
+		Or("difficulty LIKE ?", data).Or("questions_setter LIKE ?", data).Limit(12).Find(&tests).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+
+	var t []Test
+	for i := 0; i < len(tests); i++ {
+		times := utils.TimeFormat(tests[i].UpdatedAt)
+		test := Test{
+			Id:              tests[i].ID,
+			UpdateAt:        times,
+			Title:           tests[i].Title,
+			Class:           tests[i].Class,
+			Score:           tests[i].Score,
+			TitleType:       tests[i].TitleType,
+			Difficulty:      tests[i].Difficulty,
+			QuestionsSetter: tests[i].QuestionsSetter,
+			Answer:          tests[i].Answer,
+		}
+		t = append(t, test)
+	}
+
+	return t, nil
 }
