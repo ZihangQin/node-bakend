@@ -100,16 +100,42 @@ func DeleteTest(c *gin.Context) {
 		})
 		return
 	}
-	DeleteTests(data.StrList)
+	err := DeleteTests(data.StrList)
+	if err != nil {
+		fmt.Println(err)
+		c.JSON(500,static.Response{
+			Code: 10500,
+			Msg:  "数据库删除错误",
+			Data: nil,
+		})
+		return
+	}
+
+	c.JSON(200,static.Response{
+		Code: 10200,
+		Msg:  "success",
+		Data: nil,
+	})
 }
 
 func SearchTest(c *gin.Context) {
 	data := c.Query("data")
 	fmt.Println(data)
-	tests, _ := SearchTests(data)
+	tests, totle,_ := SearchTests(data)
+	if len(tests) <= 0 {
+		c.JSON(200,static.Response{
+			Code: 10201,
+			Msg:  "success",
+			Data: nil,
+		})
+		return
+	}
 	c.JSON(200, static.Response{
 		Code: 10200,
 		Msg:  "success",
-		Data: tests,
+		Data: struct {
+			Test interface{} `json:"test"`
+			Totle int `json:"totle"`
+		}{Test:tests, Totle:totle},
 	})
 }

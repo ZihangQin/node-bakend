@@ -41,7 +41,7 @@ func GetTestLists(pages int, token string) (interface{}, int, error) {
 	if err := db.DB.Model(&static.TestQuestions{}).Count(&total).Error; err != nil {
 		return nil, 0, err
 	}
-	totalPages := int(math.Ceil(float64(total) / float64(10)))
+	totalPages := int(math.Ceil(float64(total) / float64(12)))
 
 	// 分页查询试题数据
 	err = db.DB.Offset((pages - 1) * 12).Limit(12).Find(&databasesTest).Error
@@ -82,7 +82,7 @@ func SetTest(title string, class string, score int, titleType string,
 	return db.DB.Create(&test).Error
 }
 
-func DeleteTests(idLists map[string]string) {
+func DeleteTests(idLists map[string]string) error {
 	var idList []int
 
 	for k, v := range idLists {
@@ -91,23 +91,26 @@ func DeleteTests(idLists map[string]string) {
 		}
 		IntV, err := utils.StringToInt(v)
 		if err != nil {
-			return
+			return err
 		}
 		idList = append(idList, IntV)
 	}
 	sort.Ints(idList)
-	fmt.Println(idList)
 	u := make([]static.TestQuestions, len(idList))
 	for i := 0; i <= len(idList)-1; i++ {
 		u[i].ID = uint(idList[i])
 	}
-	fmt.Println(u)
-	db.DB.Model(&static.TestQuestions{}).Delete(&u)
+	err := db.DB.Model(&static.TestQuestions{}).Delete(&u).Error
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
-func SearchTests(data string) ([]Test, error) {
+func SearchTests(data string) ([]Test, int, error) {
 	if data == "" {
-		return nil, errors.New("搜索内容不能为空！")
+		return nil, 0, errors.New("搜索内容不能为空！")
 	}
 
 	var tests []static.TestQuestions
@@ -116,9 +119,17 @@ func SearchTests(data string) ([]Test, error) {
 		Or("difficulty LIKE ?", data).Or("questions_setter LIKE ?", data).Limit(12).Find(&tests).Error
 
 	if err != nil {
-		return nil, err
+		return nil, 0, err
 	}
 
+	// 计算记录总数和总页数
+	var total int64
+	if err := db.DB.Model(&static.TestQuestions{}).Where("id LIKE ?", data).
+		Or("title LIKE ?", data).Or("title_type LIKE ?", data).
+		Or("difficulty LIKE ?", data).Or("questions_setter LIKE ?", data).Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
+	totalPages := int(math.Ceil(float64(total) / float64(10)))
 
 	var t []Test
 	for i := 0; i < len(tests); i++ {
@@ -137,5 +148,7 @@ func SearchTests(data string) ([]Test, error) {
 		t = append(t, test)
 	}
 
-	return t, nil
+	fmt.Println(t,totalPages)
+
+	return t,totalPages ,nil
 }
