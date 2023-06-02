@@ -69,14 +69,19 @@ func GetTestLists(pages int, token string) (interface{}, int, error) {
 
 //向数据库添加试题数据
 func SetTest(title string, class string, score int, titleType string,
-	difficulty string, questionsSetter string, answer string) error {
+	difficulty string, answer string, token string) error {
+	//解析token
+	u, err := utils.VerifyToken(token,constant.SECRET)
+	if err != nil {
+		return err
+	}
 	test := static.TestQuestions{
 		Title:           title,
 		Class:           class,
 		Score:           score,
 		TitleType:       titleType,
 		Difficulty:      difficulty,
-		QuestionsSetter: questionsSetter,
+		QuestionsSetter: u.Username,
 		Answer:          answer,
 	}
 	return db.DB.Create(&test).Error
@@ -84,7 +89,9 @@ func SetTest(title string, class string, score int, titleType string,
 
 func DeleteTests(idLists map[string]string) error {
 	var idList []int
-
+	if idLists == nil {
+		return errors.New("参数不能为空")
+	}
 	for k, v := range idLists {
 		if k == "myCheckbox" {
 			continue

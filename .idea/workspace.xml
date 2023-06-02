@@ -3,9 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="9a585b39-5c15-48bc-b492-a44912490cad" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/handler/TestList/testList.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/handler/TestList/testList.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/handler/TestList/testListHandler.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/handler/TestList/testListHandler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routers/routers.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/routers/routers.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,6 +90,17 @@
       <directory value="$PROJECT_DIR$/" />
       <method v="2" />
     </configuration>
+    <configuration name="TestWeb3Test in bk/src/test" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="bankend" />
+      <working_directory value="$PROJECT_DIR$/src/test" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="bk/src/test" />
+      <directory value="$PROJECT_DIR$/" />
+      <filePath value="$PROJECT_DIR$/" />
+      <pattern value="^TestWeb3Test$" />
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
       <module name="bankend" />
       <working_directory value="$PROJECT_DIR$/" />
@@ -99,9 +112,21 @@
       <filePath value="$PROJECT_DIR$/" />
       <method v="2" />
     </configuration>
+    <configuration name="web_test.go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="bankend" />
+      <working_directory value="$PROJECT_DIR$/src/test" />
+      <framework value="gotest" />
+      <kind value="FILE" />
+      <package value="bankend" />
+      <directory value="$PROJECT_DIR$/" />
+      <filePath value="$PROJECT_DIR$/src/test/web_test.go" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Go Build.go build bankend/cmd/main" />
+        <item itemvalue="Go Test.TestWeb3Test in bk/src/test" />
+        <item itemvalue="Go Test.web_test.go" />
         <item itemvalue="Go Build.go build account.go" />
       </list>
     </recent_temporary>
@@ -151,29 +176,29 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="549" y="168" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1684809380262" />
-    <state width="1493" height="295" key="GridCell.Tab.0.bottom" timestamp="1685634583075">
+    <state width="1493" height="167" key="GridCell.Tab.0.bottom" timestamp="1685696616665">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="295" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1685634583075" />
-    <state width="1493" height="295" key="GridCell.Tab.0.center" timestamp="1685634583074">
+    <state width="1493" height="167" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1685696616665" />
+    <state width="1493" height="167" key="GridCell.Tab.0.center" timestamp="1685696616664">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="295" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1685634583074" />
-    <state width="1493" height="295" key="GridCell.Tab.0.left" timestamp="1685634583074">
+    <state width="1493" height="167" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1685696616664" />
+    <state width="1493" height="167" key="GridCell.Tab.0.left" timestamp="1685696616664">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="295" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1685634583074" />
-    <state width="1493" height="295" key="GridCell.Tab.0.right" timestamp="1685634583074">
+    <state width="1493" height="167" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1685696616664" />
+    <state width="1493" height="167" key="GridCell.Tab.0.right" timestamp="1685696616665">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="295" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1685634583074" />
+    <state width="1493" height="167" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1685696616665" />
     <state x="270" y="55" key="SettingsEditor" timestamp="1684427600309">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="270" y="55" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1684427600309" />
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1685407557357">
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1685635082581">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1685407557357" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1685635082581" />
   </component>
 </project>

@@ -8,13 +8,13 @@ import (
 )
 
 type testSaveRequest struct {
-	Title      string `form:"title" binding:"required"`
-	Class      string `form:"class" binding:"required"`
-	Score      int    `form:"score" binding:"required"`
-	TitleType  string `form:"titleType" binding:"required"`
-	Difficulty string `form:"difficulty" binding:"required"`
-	Question   string `form:"question" binding:"required"`
-	Answer     string `form:"answer" binding:"required"`
+	Title      string `form:"content" binding:"required" json:"content"`
+	Class      string `form:"grade" binding:"required" json:"grade"`
+	Score      string    `form:"score" binding:"required" json:"score"`
+	TitleType  string `form:"type" binding:"required" json:"type"`
+	Difficulty string `form:"difficulty" binding:"required" json:"difficulty"`
+	Answer     string `form:"answer" binding:"required" json:"answer"`
+	Token      string `json:"token"`
 }
 
 func GetTestList(c *gin.Context) {
@@ -64,13 +64,21 @@ func SaveTest(c *gin.Context) {
 	// 获取参数示例
 	title := req.Title
 	class := req.Class
-	score := req.Score
+	score,err := utils.StringToInt(req.Score)
+	if err != nil {
+		c.JSON(401,static.Response{
+			Code: 10401,
+			Msg:  "score参数错误",
+			Data: nil,
+		})
+		return
+	}
 	titleType := req.TitleType
 	difficulty := req.Difficulty
-	question := req.Question
 	answer := req.Answer
+	token := req.Token
 
-	err := SetTest(title, class, score, titleType, difficulty, question, answer)
+	err = SetTest(title, class, score, titleType, difficulty, answer, token)
 
 	if err != nil {
 		c.JSON(500, static.Response{
@@ -103,7 +111,7 @@ func DeleteTest(c *gin.Context) {
 	err := DeleteTests(data.StrList)
 	if err != nil {
 		fmt.Println(err)
-		c.JSON(500,static.Response{
+		c.JSON(500, static.Response{
 			Code: 10500,
 			Msg:  "数据库删除错误",
 			Data: nil,
@@ -111,7 +119,7 @@ func DeleteTest(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200,static.Response{
+	c.JSON(200, static.Response{
 		Code: 10200,
 		Msg:  "success",
 		Data: nil,
@@ -121,9 +129,9 @@ func DeleteTest(c *gin.Context) {
 func SearchTest(c *gin.Context) {
 	data := c.Query("data")
 	fmt.Println(data)
-	tests, totle,_ := SearchTests(data)
+	tests, totle, _ := SearchTests(data)
 	if len(tests) <= 0 {
-		c.JSON(200,static.Response{
+		c.JSON(200, static.Response{
 			Code: 10201,
 			Msg:  "success",
 			Data: nil,
@@ -134,8 +142,8 @@ func SearchTest(c *gin.Context) {
 		Code: 10200,
 		Msg:  "success",
 		Data: struct {
-			Test interface{} `json:"test"`
-			Totle int `json:"totle"`
-		}{Test:tests, Totle:totle},
+			Test  interface{} `json:"test"`
+			Totle int         `json:"totle"`
+		}{Test: tests, Totle: totle},
 	})
 }
