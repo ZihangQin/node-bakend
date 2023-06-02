@@ -36,6 +36,8 @@ func InitRouter() *gin.Engine{
 			g2.POST("/deleteTests",TestList.DeleteTest)
 			//搜索试题
 			g2.GET("/searchTests",TestList.SearchTest)
+			//修改试题
+			g2.POST("/updateTests",TestList.UpdateTest)
 		}
 	}
 	return router

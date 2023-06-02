@@ -68,17 +68,24 @@ func GetTestLists(pages int, token string) (interface{}, int, error) {
 }
 
 //向数据库添加试题数据
-func SetTest(title string, class string, score int, titleType string,
+func SetTest(title string, class string, score string, titleType string,
 	difficulty string, answer string, token string) error {
+	if title == "" || class == "" || score == "" || titleType == "" || difficulty == "" || answer == "" || token == "" {
+		return errors.New("参数不可为空")
+	}
 	//解析token
-	u, err := utils.VerifyToken(token,constant.SECRET)
+	u, err := utils.VerifyToken(token, constant.SECRET)
+	if err != nil {
+		return err
+	}
+	scoreInt, err := utils.StringToInt(score)
 	if err != nil {
 		return err
 	}
 	test := static.TestQuestions{
 		Title:           title,
 		Class:           class,
-		Score:           score,
+		Score:           scoreInt,
 		TitleType:       titleType,
 		Difficulty:      difficulty,
 		QuestionsSetter: u.Username,
@@ -87,6 +94,7 @@ func SetTest(title string, class string, score int, titleType string,
 	return db.DB.Create(&test).Error
 }
 
+//删除试题
 func DeleteTests(idLists map[string]string) error {
 	var idList []int
 	if idLists == nil {
@@ -115,6 +123,7 @@ func DeleteTests(idLists map[string]string) error {
 	return nil
 }
 
+//搜索试题
 func SearchTests(data string) ([]Test, int, error) {
 	if data == "" {
 		return nil, 0, errors.New("搜索内容不能为空！")
@@ -155,7 +164,35 @@ func SearchTests(data string) ([]Test, int, error) {
 		t = append(t, test)
 	}
 
-	fmt.Println(t,totalPages)
+	fmt.Println(t, totalPages)
 
-	return t,totalPages ,nil
+	return t, totalPages, nil
+}
+
+func UpdateTests(id string, types string, grade string, content string, difficulty string,
+	score string, answer string, token string) error {
+	_, err := utils.VerifyToken(token, constant.SECRET)
+	if err != nil {
+		return err
+	}
+	if id == "" {
+		return errors.New("请指定要修改的试题序号")
+	}
+
+	scoreInt, err := utils.StringToInt(score)
+	if err != nil {
+		return err
+	}
+
+	test := static.TestQuestions{
+		Title:      content,
+		Class:      grade,
+		Score:      scoreInt,
+		TitleType:  types,
+		Difficulty: difficulty,
+		Answer:     answer,
+	}
+	idInt, _ := utils.StringToInt(id)
+	db.DB.Model(&static.TestQuestions{}).Where("id = ?", idInt).Updates(&test)
+	return nil
 }
