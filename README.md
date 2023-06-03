@@ -1,3 +1,5 @@
+ `源码获取路径`：https://github.com/ZihangQin/node-bakend.git
+
 ## 登录（/account/login)
 - 验证用户是否正确，并且返回token
 ````

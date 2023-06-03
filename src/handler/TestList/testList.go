@@ -130,9 +130,9 @@ func SearchTests(data string) ([]Test, int, error) {
 	}
 
 	var tests []static.TestQuestions
-	err := db.DB.Model(&static.TestQuestions{}).Where("id LIKE ?", data).
-		Or("title LIKE ?", data).Or("title_type LIKE ?", data).
-		Or("difficulty LIKE ?", data).Or("questions_setter LIKE ?", data).Limit(12).Find(&tests).Error
+	err := db.DB.Model(&static.TestQuestions{}).Where("id LIKE '%"+data+"%'").
+		Or("title LIKE '%"+data+"%'", ).Or("title_type LIKE '%"+data+"%'").
+		Or("difficulty LIKE '%"+data+"%'").Or("questions_setter LIKE '%"+data+"%'").Limit(12).Find(&tests).Error
 
 	if err != nil {
 		return nil, 0, err
@@ -140,9 +140,9 @@ func SearchTests(data string) ([]Test, int, error) {
 
 	// 计算记录总数和总页数
 	var total int64
-	if err := db.DB.Model(&static.TestQuestions{}).Where("id LIKE ?", data).
-		Or("title LIKE ?", data).Or("title_type LIKE ?", data).
-		Or("difficulty LIKE ?", data).Or("questions_setter LIKE ?", data).Count(&total).Error; err != nil {
+	if err := db.DB.Model(&static.TestQuestions{}).Where("id LIKE '%"+data+"%'").
+		Or("title LIKE '%"+data+"%'", ).Or("title_type LIKE '%"+data+"%'").
+		Or("difficulty LIKE '%"+data+"%'").Or("questions_setter LIKE '%"+data+"%'").Count(&total).Error; err != nil {
 		return nil, 0, err
 	}
 	totalPages := int(math.Ceil(float64(total) / float64(10)))
