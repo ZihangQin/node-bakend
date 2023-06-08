@@ -24,5 +24,6 @@ func InitMysql(config *config.MysqlConfig) {
 		//初始化用户数据表
 		&static.UserInfos{},
 		&static.TestQuestions{},
+		&static.Log{},
 		)
 }

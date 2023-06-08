@@ -39,6 +39,10 @@ func InitRouter() *gin.Engine{
 			//修改试题
 			g2.POST("/updateTests",TestList.UpdateTest)
 		}
+		g3 := g.Group("/log")
+		{
+			g3.GET("logList")
+		}
 	}
 	return router
 }
