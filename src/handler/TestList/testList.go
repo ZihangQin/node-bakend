@@ -91,7 +91,17 @@ func SetTest(title string, class string, score string, titleType string,
 		QuestionsSetter: u.Username,
 		Answer:          answer,
 	}
-	return db.DB.Create(&test).Error
+	err = db.DB.Create(&test).Error
+	if err!=nil {
+		return err
+	}
+	//新增试题成功后将该账号积分加十
+	user := static.UserInfos{
+		Calculus:     constant.SCORE,
+	}
+	fmt.Println(u.UserID)
+	fmt.Println(user)
+	return db.DB.Model(&static.UserInfos{}).Where("id = ?",u.UserID).Updates(&user).Error
 }
 
 //删除试题

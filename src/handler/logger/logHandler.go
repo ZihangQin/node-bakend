@@ -8,13 +8,14 @@ import (
 )
 
 type LoggerBody struct {
-	OpName string `json:"opName"`
-	UserName string  `json:"UserName"`
+	OpName     string `json:"opName"`
+	UserName   string `json:"UserName"`
 	LocaleDate string `json:"LocaleDate"`
 	LocaleTime string `json:"LocaleTime"`
-	OpHash string `json:"opHash"`
+	OpHash     string `json:"opHash"`
 }
-func Loggers(c *gin.Context)  {
+
+func Loggers(c *gin.Context) {
 	var log LoggerBody
 	if err := c.Bind(&log); err != nil {
 		c.JSON(400, static.Response{
@@ -24,9 +25,8 @@ func Loggers(c *gin.Context)  {
 		})
 		return
 	}
-	fmt.Println(log)
 
-	err := SetLogger(log.LocaleDate,log.LocaleTime,log.OpName,log.UserName,log.OpHash)
+	err := SetLogger(log.LocaleDate, log.LocaleTime, log.OpName, log.UserName, log.OpHash)
 	if err != nil {
 		fmt.Println(err)
 		c.JSON(500, static.Response{
@@ -45,20 +45,20 @@ func Loggers(c *gin.Context)  {
 	return
 }
 
-func GetLoggers(c *gin.Context)  {
+func GetLoggers(c *gin.Context) {
 	page := c.Query("page")
 	pageInt, err := utils.StringToInt(page)
 	if err != nil {
-		c.JSON(400,static.Response{
+		c.JSON(400, static.Response{
 			Code: 1400,
 			Msg:  "参数错误",
 			Data: nil,
 		})
 		return
 	}
-	loggerList,totlePages,err := GetLogger(pageInt)
-	if err !=nil {
-		c.JSON(500,static.Response{
+	loggerList, totlePages, err := GetLogger(pageInt)
+	if err != nil {
+		c.JSON(500, static.Response{
 			Code: 10500,
 			Msg:  "获取日志列表失败，请重新尝试",
 			Data: nil,
@@ -69,8 +69,8 @@ func GetLoggers(c *gin.Context)  {
 		Code: 10200,
 		Msg:  "success",
 		Data: struct {
-			Loggers interface{} `json:"loggers"`
-			TotlePage int `json:"totle_page"`
-		}{Loggers:loggerList,TotlePage:totlePages},
+			Loggers   interface{} `json:"loggers"`
+			TotlePage int         `json:"totle_page"`
+		}{Loggers: loggerList, TotlePage: totlePages},
 	})
 }
