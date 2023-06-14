@@ -4,6 +4,7 @@ import (
 	"bk/src/handler/TestList"
 	"bk/src/handler/account"
 	"bk/src/handler/browse"
+	"bk/src/handler/logger"
 	"github.com/gin-gonic/gin"
 )
 
@@ -39,9 +40,11 @@ func InitRouter() *gin.Engine{
 			//修改试题
 			g2.POST("/updateTests",TestList.UpdateTest)
 		}
-		g3 := g.Group("/log")
+
+		g3 := g.Group("/logger")
 		{
-			g3.GET("logList")
+			g3.POST("/saveLogger", logger.Loggers)
+			g3.GET("/getLoggerList", logger.GetLoggers)
 		}
 	}
 	return router
